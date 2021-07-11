@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%- include ("../partials/header.ejs") %>
+  <script src="/results.js"></script>
+</head>
+<body>
+  <%- include ("../partials/nav.ejs") %>
+  <div class="container">
+    <div class="row">
+      <h2>Search Results</h2>
+    </div>
+    <div class="row">
+      <% results.forEach(function(result) { %>
+        <div class="col-md-2 py-md-2">
+          <div class="card">
+            <img class="card-img-top" height="300px"
+              src="<%= result["Poster"] %>">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-12">
+                  <p class="title-text text-truncate"><%= result["Title"]%></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-8 text-muted">
+                  <%= result["Year"]%>
+                </div>
+                <div class="col-2">
+                  <button type="button" onclick="openModal('<%= result["imdbID"] %>')" class="btn-outline-dark btn-sm"><i class="bi bi-info"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="<%= result["imdbID"] %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-fetched="false">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <!-- <div class="modal-header">
+                <h5 class="modal-title" id="<%= result["imdbID"] %>.title"><%= result["Title"]%></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div> -->
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="text-center">
+                      <img src="" id="<%= result["imdbID"] %>.img" height="450px"/>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row">
+                      <div class="col-md-10 py-md-3">
+                        <h5 class="modal-title fw-bold"><%= result["Title"]%></h5>
+                      </div>
+                      <div class="col-md-2">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="h3 fw-light left-border">
+                        Plot
+                      </div>
+                      <div class="col-md-12" id="<%= result["imdbID"] %>.plot">
+                        
+                      </div>
+                      <div class="col-md-6 py-md-3">
+                        <div class="row">
+                          <div class="col-12 left-border">
+                            Actors
+                          </div>
+                          <div class="col-12 py-md-2" id="<%= result["imdbID"] %>.actors">
+                            
+                          </div>
+                          <div class="col-12 left-border">
+                            Producers
+                          </div>
+                          <div class="col-12 py-md-2" id="<%= result["imdbID"] %>.producers">
+                          
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6 py-md-3">
+                        <div class="row">
+                          <div class="col-12 left-border">
+                            Ratings
+                          </div>
+                          <div class="col-12 py-md-1">
+                            Internet Movie Database
+                            <div class="progress my-md-2">
+                              <div id="<%= result["imdbID"] %>.imd" class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="25"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                          </div>
+                          <div class="col-12 py-md-1">
+                            Rotten Tomatoes
+                            <div class="progress my-md-2">
+                              <div id="<%= result["imdbID"] %>.rot" class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="25"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                          </div>
+                          <div class="col-12 py-md-1">
+                            Metacritic
+                            <div class="progress my-md-2">
+                              <div id="<%= result["imdbID"] %>.meta" id="" class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="25"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+  </div>
+</body>
+</html>

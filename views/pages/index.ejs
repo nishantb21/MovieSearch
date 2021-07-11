@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%- include ("../partials/header.ejs") %>
+</head>
+<body">
+  <%- include ("../partials/nav.ejs") %>
+  <div class="container full-height d-flex flex-column align-items-center justify-content-center">
+    <div class="jumbotron">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <h1 class="display-4">Welcome to Movie Search!</h1>
+          <br>
+          <p class="lead text-center">To start searching for a movie simply start typing in the text box below and click on the search
+            button. The 10 most relevant search results will be shown! Want to keep track of your searches or bookmarks some movies? Login or Sign Up!</p>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-4">
+          <form class="row" action="/search" method="get" id="search-form">
+            <div class="col-md-10">
+              <input name="term" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            </div>
+            <div class="col-md-2">
+              <button type="submit" form="search-form" class="btn btn-outline-dark"><i class="bi bi-search"></i></button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
