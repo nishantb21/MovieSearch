@@ -16,8 +16,8 @@ const pool = new Pool({
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-const API_KEY = "e2079696";
-const SECRET_KEY = "keyboard";
+const API_KEY = "";
+const SECRET_KEY = "";
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'scripts')));
