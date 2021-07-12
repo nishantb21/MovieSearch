@@ -6,6 +6,8 @@ const cookie_parser = require('cookie-parser');
 const session = require('express-session');
 const crypto = require('crypto');
 const Pool = require('pg').Pool;
+
+// Database configuration for localhost
 const pool = new Pool({
   user: 'server',
   password: 'admin',
@@ -19,20 +21,26 @@ const PORT = process.env.PORT || 5000;
 const API_KEY = "";
 const SECRET_KEY = "";
 
+// Add the static directories for serving JS and CSS
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'scripts')));
+
+// Set up session parameters
 app.use(session({
   secret: SECRET_KEY,
   saveUninitialized: true,
   cookie: { maxAge: 1000 * 60 * 60 * 24 },
   resave: false
 }));
+
+// Required to parse form data from RESTful calls and normal form submissions
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(cookie_parser());
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+// Index page: Will load two different versions depending on whether a user is logged in or not
 app.get('/', (req, res) => {
   if (!(req.session.user_id == undefined)) {
     res.render('pages/index', { user_id: req.session.user_id });
@@ -41,6 +49,7 @@ app.get('/', (req, res) => {
   }
 });
 
+// Login API: Will login the user and reload the home page by default
 app.post('/login', (req, res) => {
   var email = req.body.email;
   var password = req.body.password;
@@ -64,11 +73,13 @@ app.post('/login', (req, res) => {
   });
 });
 
+// Logout API: Will logout a user by destroying the session variable and redirecting him/her back to the home page
 app.get('/logout', (req, res) => {
   req.session.destroy();
   res.redirect("/");
 });
 
+// Sign Up API: Store passwords as hashes instead of plain text
 app.post('/register', (req, res) => {
   var name = req.body.name;
   var email = req.body.email;
@@ -88,6 +99,7 @@ app.post('/register', (req, res) => {
 
 });
 
+// Log API: Log the user history 
 app.post("/log", (req, res) => {
   var id = req.session.user_id;
   var title = req.body.title;
@@ -103,6 +115,7 @@ app.post("/log", (req, res) => {
   });
 });
 
+// History API: Get the user history
 app.get('/history', (req, res) => {
   pool.query('SELECT * FROM history WHERE id=$1', [req.session.user_id], (error, results) => {
     if (error) {
@@ -118,6 +131,7 @@ app.get('/history', (req, res) => {
   
 });
 
+// Search API: Given a search term, return the corresponding movies(first 10 results only)
 app.get('/search', (req, res) => {
   const OMDB_URL = `http://www.omdbapi.com/?apikey=${API_KEY}&s=${req.query.term}`;
   request.get(OMDB_URL, function (error, response, body) {
@@ -131,6 +145,7 @@ app.get('/search', (req, res) => {
   });
 });
 
+// Movie API: Return details of a movie given its identifier
 app.post('/movie/:id', (req, res) => {
   const OMDB_URL = `http://www.omdbapi.com/?apikey=${API_KEY}&i=${req.params.id}`;
   request.get(OMDB_URL, function (error, response, body) {
