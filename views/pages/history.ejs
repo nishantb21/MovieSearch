@@ -13,6 +13,12 @@
       </div>
       <div class="row">
         <div class="col-md-8 offset-md-2">
+          <% if (results.length == 0) { %>
+            <div class="text-center">
+              <h3>Oops! Your search history is empty. Start searching for some movies in the homescreen.</h3>
+            </div>
+          <% } else { %>
+
           <div class="accordion accordion-flush" id="accordionFlushExample">
             <% results.forEach(function(result) { %>
               <div class="accordion-item">
@@ -86,6 +92,7 @@
               </div>
             <% }); %>
           </div>
+          <% } %>
         </div>
       </div>
     </div>

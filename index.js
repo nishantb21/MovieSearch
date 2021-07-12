@@ -82,7 +82,7 @@ app.post('/register', (req, res) => {
       console.log(error);
     }
     else {
-      res.send("Done");
+      res.redirect("/");
     }
   });
 
