@@ -1,33 +1,7 @@
-function returnClass(percentage) {
-    var className;
-    if (percentage > 66) {
-        className = "bg-success";
-    }
-    else if ((percentage > 33) && (percentage <= 66)) {
-        className = "bg-warning";
-    }
-    else {
-        className = "bg-danger";
-    }
+function openAccordian(id) {
+    var accordianElement = document.getElementById(id + "-flush-collapse");
 
-    return className;
-}
-
-function openModalAndLog(id, title, year) {
-    var data = {};
-    data["imdb_ID"] = id;
-    data["title"] = title;
-    data["year"] = year;
-    $.post('/log', data);
-
-    openModal(id);
-}
-
-function openModal(id) {
-    var modalDOMElement = document.getElementById(id);
-    var myModal = new bootstrap.Modal(modalDOMElement, { keyboard: false });
-
-    if (modalDOMElement.dataset.fetched == "false") {
+    if (accordianElement.dataset.fetched == "false") {
         var url = "/movie/" + id;
         $.post(url, function (data) {
             var img_element = document.getElementById(id + ".img");
@@ -54,8 +28,6 @@ function openModal(id) {
             meta_element.style.width = meta_perc.toString() + "%";
             meta_element.className += " " + returnClass(meta_perc);
         });
-        modalDOMElement.dataset.fetched = "true";
+        accordianElement.dataset.fetched = "true";
     }
-
-    myModal.show();
 }
